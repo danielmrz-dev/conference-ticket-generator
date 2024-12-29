@@ -1,0 +1,12 @@
+.ticket-form {
+    &__title {
+        padding: 1rem 1.5rem;
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    &__paragraph {
+        font-size: 1.2rem;
+        padding: .15rem;
+        line-height: 1.2;
+    }
+}

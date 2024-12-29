@@ -1,0 +1,13 @@
+@use "../../../scss/variables" as var;
+
+.header {
+    &__container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &__logo {
+        width: 171px;
+        height: 75px;
+    }
+}

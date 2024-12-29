@@ -1,0 +1,30 @@
+<form class="form">
+    <div class="form__file-input">
+        <label for="file">Upload Avatar</label>
+        <div class="form__avatar">
+            <input type="file" id="file">
+            <span class="form__avatar-icon-container">
+                <img src="icon-upload.svg" alt="">
+            </span>
+            <p class="form__avatar-text">Drag and Drop or click to upload</p>
+        </div>
+        <p class="form__avatar-upload-warn">
+            <img src="icon-info.svg" alt=""> 
+            Upload your photo (JPG or PNG, max size: 500kb).
+        </p>
+    </div>
+
+    <div class="form__text-inputs">
+        <label for="name">Full Name</label>
+        <input type="text">
+    </div>
+    <div class="form__text-inputs">
+        <label for="email">Email Address</label>
+        <input type="email" placeholder="example@email.com">
+    </div>
+    <div class="form__text-inputs">
+        <label for="username">GitHub Username</label>
+        <input type="text" placeholder="@yourusername">
+    </div>
+    <button class="form__submit-btn">Generate My Ticket</button>
+</form>
