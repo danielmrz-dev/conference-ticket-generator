@@ -136,6 +136,7 @@
         }
         &--disabled {
             opacity: .5;
+            cursor: not-allowed;
         }
     }
     &__error-msg {
