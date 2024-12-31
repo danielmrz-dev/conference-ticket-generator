@@ -1,9 +1,10 @@
+import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-ticket',
   standalone: true,
-  imports: [],
+  imports: [NgFor],
   templateUrl: './ticket.component.html',
   styleUrl: './ticket.component.scss'
 })

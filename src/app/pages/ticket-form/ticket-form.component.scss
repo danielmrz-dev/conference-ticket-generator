@@ -10,3 +10,22 @@
         line-height: 1.2;
     }
 }
+
+@media screen and (min-width: 1024px) {
+    .ticket-form {
+        &__title {
+            padding: 1.75rem 1.5rem;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            max-width: 920px;
+            margin: auto;
+            letter-spacing: 1px;
+        }
+        &__paragraph {
+            font-size: 1.45rem;
+            padding: 0;
+            transform: translateY(-2px);
+            line-height: 1;
+        }
+    }
+}

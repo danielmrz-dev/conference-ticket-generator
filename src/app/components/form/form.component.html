@@ -1,30 +1,73 @@
-<form class="form">
+<form class="form" [formGroup]="ticketForm" (submit)="logInfos()">
     <div class="form__file-input">
         <label for="file">Upload Avatar</label>
         <div class="form__avatar">
-            <input type="file" id="file">
-            <span class="form__avatar-icon-container">
-                <img src="icon-upload.svg" alt="">
-            </span>
-            <p class="form__avatar-text">Drag and Drop or click to upload</p>
+            <input 
+                type="file" 
+                id="file" 
+                #fileInput
+                formControlName="photo" 
+                (change)="onFileSelected()"
+            >
+            <div class="form__avatar--not-uploaded" *ngIf="!isImageUploaded">
+                <span class="form__avatar-icon-container">
+                    <img src="icon-upload.svg" alt="">
+                </span>
+                <p class="form__avatar-text">Drag and Drop or click to upload</p>
+            </div>
+            <div class="form__avatar--uploaded" *ngIf="isImageUploaded">
+                <span class="form__avatar-icon-container">
+                    <img [src]="picture" alt="">
+                </span>
+                <div class="form__avatar--uploaded-btns">
+                    <button type="button" (click)="removeImage()">Remove image</button>
+                    <button type="button" (click)="changeImage()">Change image</button>
+                </div>
+            </div>
         </div>
-        <p class="form__avatar-upload-warn">
+        <p class="form__avatar-upload-warn" *ngIf="photo.untouched || photo.touched && !photo.hasError('required')">
             <img src="icon-info.svg" alt=""> 
             Upload your photo (JPG or PNG, max size: 500kb).
         </p>
+        <span class="form__error-msg first" *ngIf="photo.touched && photo.hasError('required')">
+            <img src="icon-error.svg" alt="">
+            File too large. Please upload a photo under 500KB
+        </span>
     </div>
 
     <div class="form__text-inputs">
         <label for="name">Full Name</label>
-        <input type="text">
+        <input type="text" formControlName="name">
+        <span class="form__error-msg" *ngIf="name.touched && name.hasError('required')">
+            <img src="icon-error.svg" alt="">
+            Please enter a valid name
+        </span>
     </div>
     <div class="form__text-inputs">
         <label for="email">Email Address</label>
-        <input type="email" placeholder="example@email.com">
+        <input type="email" placeholder="example@email.com" formControlName="email">
+        <span class="form__error-msg" *ngIf="email.touched && email.hasError('required')">
+            <img src="icon-error.svg" alt="">
+            Please enter your email address
+        </span>
+        <span class="form__error-msg" *ngIf="!email.hasError('required') && email.hasError('invalidEmailPattern') ">
+            <img src="icon-error.svg" alt="">
+            This email address is invalid
+        </span>
     </div>
     <div class="form__text-inputs">
         <label for="username">GitHub Username</label>
-        <input type="text" placeholder="@yourusername">
+        <input type="text" placeholder="@yourusername" formControlName="githubUsername">
+        <span class="form__error-msg" *ngIf="githubUsername.touched && githubUsername.hasError('required')">
+            <img src="icon-error.svg" alt="">
+            Please enter a valid username
+        </span>
     </div>
-    <button class="form__submit-btn">Generate My Ticket</button>
+    <button 
+        class="form__submit-btn" 
+        [disabled]="ticketForm.invalid"
+        [ngClass]="{
+            'form__submit-btn--disabled': ticketForm.invalid
+        }"
+    >Generate My Ticket</button>
 </form>

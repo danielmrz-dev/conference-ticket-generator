@@ -13,6 +13,7 @@
         flex-direction: column;
         align-items: start;
         gap: 0.8rem;
+        position: relative;
     }
     &__avatar {
         position: relative;
@@ -26,6 +27,43 @@
         gap: 1.1rem;
         padding-block: 1.15rem;
         transition: background-color .2s ease;
+        &--not-uploaded, &--uploaded {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.1rem;            
+        }
+        &--uploaded {
+            gap: 0;
+            .form__avatar-icon-container {
+                background: transparent;             
+            }
+            img {
+                width: 50px;
+                border-radius: 10px;
+                border: 2px solid var.$Neutral-500;
+                transform: translateY(-10px);
+            }
+            &-btns {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                button {
+                    padding: .25rem 0.5rem;
+                    font-size: 0.7rem;
+                    font-family: var.$Inconsolata;
+                    color: var.$Neutral-0;
+                    background-color: var.$Neutral-700;
+                    border: none;
+                    border-radius: 5px;
+                    z-index: 1;
+                    cursor: pointer;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
         &:hover {
             background-color: var.$Neutral-700-hover;
         }
@@ -64,6 +102,7 @@
         align-items: start;
         width: 100%;
         gap: 1rem;
+        position: relative;
         input {
             width: 100%;
             border-radius: 10px;
@@ -91,9 +130,33 @@
         padding: 1rem;
         cursor: pointer;
         transition: background-color .2s ease, filter .2s ease;
-        &:hover {
+        &:hover:not(&--disabled) {
             background-color: var.$Orange-700;
             filter: brightness(80%);
         }
+        &--disabled {
+            opacity: .5;
+        }
+    }
+    &__error-msg {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: .7rem;
+        color: var.$Orange-700;
+        position: absolute;
+        bottom: -20px;
+        left: 5px;
+    }
+    .first {
+        left: 0;
+        bottom: -20px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .form {
+        max-width: 480px;
+        margin: 2.5rem auto 0;
     }
 }
