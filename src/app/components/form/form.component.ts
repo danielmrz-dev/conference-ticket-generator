@@ -8,14 +8,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { emailPatternValidator } from '../../validators/email-validator.directive';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserInfoService } from '../../services/user-info.service';
 import { ITicketData } from '../../interfaces/ticket-data.interface';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
