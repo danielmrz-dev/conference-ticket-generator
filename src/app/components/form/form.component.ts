@@ -12,11 +12,12 @@ import { Router } from '@angular/router';
 import { UserInfoService } from '../../services/user-info.service';
 import { ITicketData } from '../../interfaces/ticket-data.interface';
 import { getImageFormatString } from '../../utils/get-files-formats-string';
+import { UsernameValidatorDirective } from '../../validators/username-validator.directive';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, UsernameValidatorDirective],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
@@ -26,9 +27,9 @@ export class FormComponent implements OnInit {
   ticketForm!: FormGroup;
   picture: string | null = null;
   isImageUploaded: boolean = false;
-  allowedFormatFiles: string[] = ['image/png', 'image/jpeg']
-  isImageFormatValid: boolean = false
-  isImageTooBig: boolean = false
+  allowedFormatFiles: string[] = ['image/png', 'image/jpeg'];
+  isImageFormatValid: boolean = false;
+  isImageTooBig: boolean = false;
 
   constructor(
     private readonly _fb: FormBuilder,
@@ -41,7 +42,7 @@ export class FormComponent implements OnInit {
       photo: this._fb.control('', [Validators.required]),
       name: this._fb.control('', [Validators.required]),
       email: this._fb.control('', [Validators.required, emailPatternValidator]),
-      githubUsername: this._fb.control('', [Validators.required]),
+      githubUsername: this._fb.control('', { validators: [Validators.required], updateOn: 'blur' }),
     });
   }
 
@@ -72,7 +73,6 @@ export class FormComponent implements OnInit {
 
       if (!this.allowedFormatFiles.includes(file.type)) {
         this.isImageFormatValid = false
-        console.log(`O formato ${file.type} é inválido!`);
         return;
       } else if (this.allowedFormatFiles.includes(file.type) && (file.size / 1024) > 500) {
         this.isImageFormatValid = true;
@@ -118,13 +118,13 @@ export class FormComponent implements OnInit {
   }
 
   getUserData() {
-    this.photo.enable();
-    const formData: ITicketData = {
-      ...this.ticketForm.value,
-      photo: this.picture
-    };
-    this._userInfo.saveTicketData(formData);
-    this._router.navigate(['/ticket'])
+      this.photo.enable();
+      const formData: ITicketData = {
+        ...this.ticketForm.value,
+        photo: this.picture
+      };
+      this._userInfo.saveTicketData(formData);
+      this._router.navigate(['/ticket'])      
   }
 
 }

@@ -44,7 +44,7 @@
         <input type="text" formControlName="name">
         <span class="form__error-msg" *ngIf="name.touched && name.hasError('required')">
             <img src="icon-error.svg" alt="">
-            Please enter a valid name
+            Please enter a valid name.
         </span>
     </div>
     <div class="form__text-inputs">
@@ -52,26 +52,38 @@
         <input type="email" placeholder="example@email.com" formControlName="email">
         <span class="form__error-msg" *ngIf="email.touched && email.hasError('required')">
             <img src="icon-error.svg" alt="">
-            Please enter your email address
+            Please enter your email address.
         </span>
         <span class="form__error-msg" *ngIf="!email.hasError('required') && email.hasError('invalidEmailPattern') ">
             <img src="icon-error.svg" alt="">
-            This email address is invalid
+            This email address is invalid.
         </span>
     </div>
     <div class="form__text-inputs">
         <label for="username">GitHub Username</label>
-        <input type="text" placeholder="@yourusername" formControlName="githubUsername">
+        <input type="text" placeholder="@yourusername" formControlName="githubUsername" appUsernameValidator>
         <span class="form__error-msg" *ngIf="githubUsername.touched && githubUsername.hasError('required')">
             <img src="icon-error.svg" alt="">
-            Please enter a valid username
+            Please enter a valid username.
+        </span>
+        <span class="form__error-msg" *ngIf="!githubUsername.hasError('required') && githubUsername.hasError('invalidUsername')">
+            <img src="icon-error.svg" alt="">
+            This username does not exist.
         </span>
     </div>
-    <button 
+    <button
+        *ngIf="!githubUsername.pending"
         class="form__submit-btn" 
         [disabled]="ticketForm.invalid"
+        type="submit"
         [ngClass]="{
             'form__submit-btn--disabled': ticketForm.invalid
         }"
     >Generate My Ticket</button>
+    <button 
+        type="button"
+        *ngIf="githubUsername.pending"
+        class="form__submit-btn form__submit-btn--disabled" 
+        [disabled]="true"
+    >Searching...</button>
 </form>
