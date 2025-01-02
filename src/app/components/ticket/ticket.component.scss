@@ -77,7 +77,9 @@
         grid-area: 2 / 1 / 3 / 2;
         text-align: start;
         img {
-            width: 45px; // arrumar o tamanho dessa imagem
+            width: 45px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
             border-radius: 8px;
             grid-area: 1 / 1 / 3 / 2;
         }

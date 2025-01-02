@@ -11,6 +11,7 @@ import { emailPatternValidator } from '../../validators/email-validator.directiv
 import { Router } from '@angular/router';
 import { UserInfoService } from '../../services/user-info.service';
 import { ITicketData } from '../../interfaces/ticket-data.interface';
+import { getImageFormatString } from '../../utils/get-files-formats-string';
 
 @Component({
   selector: 'app-form',
@@ -25,12 +26,15 @@ export class FormComponent implements OnInit {
   ticketForm!: FormGroup;
   picture: string | null = null;
   isImageUploaded: boolean = false;
+  allowedFormatFiles: string[] = ['image/png', 'image/jpeg']
+  isImageFormatValid: boolean = false
+  isImageTooBig: boolean = false
 
   constructor(
     private readonly _fb: FormBuilder,
     private readonly _userInfo: UserInfoService,
     private readonly _router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.ticketForm = this._fb.group({
@@ -57,30 +61,46 @@ export class FormComponent implements OnInit {
     return this.ticketForm.get('githubUsername') as FormControl;
   }
 
+  get imageFormat(): string {
+    return getImageFormatString(this.fileInput)
+  }
+
   onFileSelected() {
-    if (
-      this.fileInput.nativeElement.files &&
-      this.fileInput.nativeElement.files[0]
-    ) {
+    if (this.fileInput.nativeElement.files && this.fileInput.nativeElement.files[0]) {
+
       const file = this.fileInput.nativeElement.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        this.picture = e.target?.result as string;
-      };
-      reader.readAsDataURL(file);
-      this.photo.disable();
-      this.isImageUploaded = true;
+
+      if (!this.allowedFormatFiles.includes(file.type)) {
+        this.isImageFormatValid = false
+        console.log(`O formato ${file.type} é inválido!`);
+        return;
+      } else if (this.allowedFormatFiles.includes(file.type) && (file.size / 1024) > 500) {
+        this.isImageFormatValid = true;
+        this.isImageTooBig = true;
+        return;
+      } else if (this.allowedFormatFiles.includes(file.type) && (file.size / 1024) < 500) {
+        this.isImageUploaded = true;
+        this.isImageFormatValid = true;
+        this.isImageTooBig = false;
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          this.picture = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+        this.photo.disable();
+      }
     }
   }
 
   changeImage(): void {
     if (this.fileInput) {
+      this.photo.reset();
       this.photo.enable();
       this.fileInput.nativeElement.click();
       this.fileInput.nativeElement.value = '';
-      setTimeout(() => {
-        this.isImageUploaded = false;
-      }, 500);
+      this.isImageUploaded = false;
+      this.isImageTooBig = false;
+      this.isImageFormatValid = false;
     }
   }
 
@@ -88,6 +108,8 @@ export class FormComponent implements OnInit {
     this.picture = null;
     this.photo.enable();
     this.isImageUploaded = false;
+    this.isImageTooBig = false;
+    this.isImageFormatValid = false;
 
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
@@ -104,5 +126,5 @@ export class FormComponent implements OnInit {
     this._userInfo.saveTicketData(formData);
     this._router.navigate(['/ticket'])
   }
-  
+
 }

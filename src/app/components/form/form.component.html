@@ -25,13 +25,17 @@
                 </div>
             </div>
         </div>
-        <p class="form__avatar-upload-warn" *ngIf="photo.untouched || photo.touched && !photo.hasError('required')">
+        <p class="form__avatar-upload-warn" *ngIf="photo.hasError('required')">
             <img src="icon-info.svg" alt=""> 
             Upload your photo (JPG or PNG, max size: 500kb).
         </p>
-        <span class="form__error-msg first" *ngIf="photo.touched && photo.hasError('required')">
+        <span class="form__error-msg first" *ngIf="!photo.hasError('required') && !isImageFormatValid">
             <img src="icon-error.svg" alt="">
-            File too large. Please upload a photo under 500KB
+            {{ imageFormat }} files are not supported. Please upload a PNG or JPG file.
+        </span>
+        <span class="form__error-msg first" *ngIf="isImageTooBig && !photo.hasError('required') && isImageFormatValid">
+            <img src="icon-error.svg" alt="">
+            Too large. Please upload a photo under 500KB.
         </span>
     </div>
 
