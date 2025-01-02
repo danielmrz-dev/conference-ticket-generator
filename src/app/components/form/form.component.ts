@@ -12,12 +12,11 @@ import { Router } from '@angular/router';
 import { UserInfoService } from '../../services/user-info.service';
 import { ITicketData } from '../../interfaces/ticket-data.interface';
 import { getImageFormatString } from '../../utils/get-files-formats-string';
-import { UsernameValidatorDirective } from '../../validators/username-validator.directive';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, UsernameValidatorDirective],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
 })
@@ -34,7 +33,7 @@ export class FormComponent implements OnInit {
   constructor(
     private readonly _fb: FormBuilder,
     private readonly _userInfo: UserInfoService,
-    private readonly _router: Router
+    private readonly _router: Router,
   ) { }
 
   ngOnInit() {
@@ -42,7 +41,11 @@ export class FormComponent implements OnInit {
       photo: this._fb.control('', [Validators.required]),
       name: this._fb.control('', [Validators.required]),
       email: this._fb.control('', [Validators.required, emailPatternValidator]),
-      githubUsername: this._fb.control('', { validators: [Validators.required], updateOn: 'blur' }),
+      githubUsername: this._fb.control('', 
+        { 
+          validators: [Validators.required], 
+          updateOn: 'blur' 
+        }),
     });
   }
 
