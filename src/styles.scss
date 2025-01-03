@@ -18,6 +18,7 @@ body {
 @media screen and (min-width: 1024px) {
     body {
         min-height: 100vh;
+        margin-block: 2rem;
         background-image: url(./assets/images/pattern-lines.svg), url(./assets/images/pattern-squiggly-line-top.svg), url(./assets/images/pattern-squiggly-line-bottom.svg), url(./assets/images/background-desktop.png);
         background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
         background-position: top, top 70px right -20px, left bottom -150px, center;
