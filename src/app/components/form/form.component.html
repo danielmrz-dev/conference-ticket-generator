@@ -4,7 +4,8 @@
         <div class="form__avatar" [ngClass]="{ 'focus': isFocused }">
             <input 
                 type="file" 
-                id="file" 
+                id="file"
+                accept="image/png, image/jpeg"
                 #fileInput
                 formControlName="photo"
                 (change)="onFileSelected()"
