@@ -2,108 +2,40 @@ import { ElementRef } from "@angular/core";
 
 export function getImageFormatString(fileInput: ElementRef<HTMLInputElement>): string {
     let fileType: string = '';
-    if (fileInput.nativeElement.files) {
+    if (fileInput.nativeElement.files && fileInput.nativeElement.files[0]) {
         const file = fileInput.nativeElement.files[0];
         switch (file.type) {
-            case 'image/jpeg':
-                fileType = "JPEG";
-                break;
-            case 'image/png':
-                fileType = "PNG";
-                break;
-            case 'image/gif':
-                fileType = "GIF";
-                break;
-            case 'image/webp':
-                fileType = "WEBP";
-                break;
-            case 'image/bmp':
-                fileType = "BMP";
-                break;
-            case 'image/tiff':
-                fileType = "TIFF";
-                break;
-            case 'image/svg+xml':
-                fileType = "SVG";
-                break;
-            case 'application/pdf':
-                fileType = "PDF";
-                break;
-            case 'text/plain':
-                fileType = "TXT";
-                break;
-            case 'text/csv':
-                fileType = "CSV";
-                break;
-            case 'application/msword':
-                fileType = "DOC";
-                break;
-            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-                fileType = "DOCX";
-                break;
-            case 'application/vnd.ms-excel':
-                fileType = "XLS";
-                break;
-            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-                fileType = "XLSX";
-                break;
-            case 'application/vnd.ms-powerpoint':
-                fileType = "PPT";
-                break;
-            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-                fileType = "PPTX";
-                break;
-            case 'audio/mpeg':
-                fileType = "MP3";
-                break;
-            case 'audio/wav':
-                fileType = "WAV";
-                break;
-            case 'audio/ogg':
-                fileType = "OGG";
-                break;
-            case 'video/mp4':
-                fileType = "MP4";
-                break;
-            case 'video/webm':
-                fileType = "WEBM";
-                break;
-            case 'video/ogg':
-                fileType = "OGG";
-                break;
-            case 'application/zip':
-                fileType = "ZIP";
-                break;
-            case 'application/x-rar-compressed':
-                fileType = "RAR";
-                break;
-            case 'font/woff':
-                fileType = "WOFF";
-                break;
-            case 'font/woff2':
-                fileType = "WOFF2";
-                break;
-            case 'application/font-woff':
-                fileType = "WOFF";
-                break;
-            case 'application/font-woff2':
-                fileType = "WOFF2";
-                break;
-            case 'text/javascript':
-                fileType = "JS";
-                break;
-            case 'application/json':
-                fileType = "JSON";
-                break;
-            case 'text/css':
-                fileType = "CSS";
-                break;
-            case 'application/x-sh':
-                fileType = "SH";
-                break;
-            default:
-                fileType = "UNKNOWN";
-                break;
+            case 'image/jpeg': return "JPEG";
+            case 'image/png': return "PNG";
+            case 'image/gif': return "GIF";
+            case 'image/webp': return "WEBP";
+            case 'image/bmp': return "BMP";
+            case 'image/tiff': return "TIFF";
+            case 'image/svg+xml': return "SVG";
+            case 'application/pdf': return "PDF";
+            case 'text/plain': return "TXT";
+            case 'text/csv': return "CSV";
+            case 'application/msword': return "DOC";
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document': return "DOCX";
+            case 'application/vnd.ms-excel': return "XLS";
+            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': return "XLSX";
+            case 'application/vnd.ms-powerpoint': return "PPT";
+            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation': return "PPTX";
+            case 'audio/mpeg': return "MP3";
+            case 'audio/wav': return "WAV";
+            case 'audio/ogg': return "OGG";
+            case 'video/mp4': return "MP4";
+            case 'video/webm': return "WEBM";
+            case 'video/ogg': return "OGG";
+            case 'application/zip': return "ZIP";
+            case 'application/x-rar-compressed': return "RAR";
+            case 'font/woff': return "WOFF";
+            case 'font/woff2': return "WOFF2";
+            case 'application/json': return "JSON";
+            case 'text/javascript': return "JS";
+            case 'text/css': return "CSS";
+            case 'application/x-sh': return "SH";
+            default: return "UNKNOWN";
         }
     }
     return fileType;

@@ -1,6 +1,7 @@
 <div class="ticket-ready">
     <h2 class="ticket-ready__title">
-        Congrats, <span class="ticket-ready__user-name">{{ userData.name }}</span>! Your ticket is ready.
+        <!-- Congrats, <span class="ticket-ready__user-name">{{ userData.name }}</span>! Your ticket is ready. -->
+        Congrats, <span class="ticket-ready__user-name">{{ 'Jonatan Kristof' }}</span>! Your ticket is ready.
     </h2>
     <p class="ticket-ready__message">
         We've emailed your ticket to <span class="ticket-ready__user-email">{{ userData.email }}</span> and will send updates in the run up to the event.
@@ -13,13 +14,16 @@
                 <p class="ticket-ready__ticket-header-date">Jan 31, 2025 / Austin, TX</p>
             </div>
             <div class="ticket-ready__ticket-user-data">
-                <img [src]="userData.photo" alt="">
+                <!-- <img [src]="userData.photo" alt=""> -->
+                <img src="image-avatar.jpg" alt="">
                 <p class="ticket-ready__ticket-user-data-name">
-                    {{ userData.name }}
+                    <!-- {{ userData.name }} -->
+                    {{ 'Jonatan Kristof' }}
                 </p>
                 <p class="ticket-ready__ticket-user-data-github">
                     <img src="icon-github.svg" alt="">
-                    &#64;{{ userData.githubUsername }}
+                    <!-- &#64;{{ userData.githubUsername }} -->
+                    &#64;jonatankristof0101
                 </p>
             </div>
             <div class="ticket-ready__ticket-id">

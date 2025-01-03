@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { UserInfoService } from '../../services/user-info.service';
 import { ITicketData } from '../../interfaces/ticket-data.interface';
 import { getImageFormatString } from '../../utils/get-files-formats-string';
+import { GithubUsernameValidatorService } from '../../validators/github-username-validator.service';
 
 @Component({
   selector: 'app-form',
@@ -29,20 +30,24 @@ export class FormComponent implements OnInit {
   allowedFormatFiles: string[] = ['image/png', 'image/jpeg'];
   isImageFormatValid: boolean = false;
   isImageTooBig: boolean = false;
+  imageFormat: string | null = null;
+  isFocused: boolean = false
 
   constructor(
     private readonly _fb: FormBuilder,
     private readonly _userInfo: UserInfoService,
     private readonly _router: Router,
+    private _githubUsernameService: GithubUsernameValidatorService
   ) { }
 
   ngOnInit() {
     this.ticketForm = this._fb.group({
-      photo: this._fb.control('', [Validators.required]),
+      photo: this._fb.control(null, { validators: [Validators.required], updateOn: 'change' }),
       name: this._fb.control('', [Validators.required]),
       email: this._fb.control('', [Validators.required, emailPatternValidator]),
       githubUsername: this._fb.control('', 
         { 
+          asyncValidators: [this._githubUsernameService.validate.bind(this._githubUsernameService)],
           validators: [Validators.required], 
           updateOn: 'blur' 
         }),
@@ -65,32 +70,37 @@ export class FormComponent implements OnInit {
     return this.ticketForm.get('githubUsername') as FormControl;
   }
 
-  get imageFormat(): string {
-    return getImageFormatString(this.fileInput)
-  }
-
   onFileSelected() {
     if (this.fileInput.nativeElement.files && this.fileInput.nativeElement.files[0]) {
-
-      const file = this.fileInput.nativeElement.files[0];
+      let file = this.fileInput.nativeElement.files[0];
+      this.imageFormat = getImageFormatString(this.fileInput);
 
       if (!this.allowedFormatFiles.includes(file.type)) {
         this.isImageFormatValid = false
+        this.fileInput.nativeElement.value = '';
+        this.photo.setErrors({ 'invalidFormat': true })
         return;
       } else if (this.allowedFormatFiles.includes(file.type) && (file.size / 1024) > 500) {
         this.isImageFormatValid = true;
         this.isImageTooBig = true;
+        this.fileInput.nativeElement.value = '';
+        this.photo.setErrors({ 'invalidFormat': true })
         return;
       } else if (this.allowedFormatFiles.includes(file.type) && (file.size / 1024) < 500) {
+        this.fileInput.nativeElement.value = '';
         this.isImageUploaded = true;
         this.isImageFormatValid = true;
         this.isImageTooBig = false;
+
+        this.photo.setErrors(null);
+        this.photo.updateValueAndValidity();
+
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
           this.picture = e.target?.result as string;
         };
         reader.readAsDataURL(file);
-        this.photo.disable();
+        
       }
     }
   }
@@ -118,6 +128,7 @@ export class FormComponent implements OnInit {
       this.fileInput.nativeElement.value = '';
     }
     this.photo.reset();
+    this.photo.setErrors({ required: true })
   }
 
   getUserData() {
@@ -130,4 +141,11 @@ export class FormComponent implements OnInit {
       this._router.navigate(['/ticket'])      
   }
 
+  onFocus() {
+    this.isFocused = true
+  }
+
+  onBlur() {
+    this.isFocused = false
+  }
 }

@@ -154,6 +154,12 @@
     .first {
         position: static;
     }
+    .valid {
+        color: var.$Green;
+    }
+    .focus {
+        border: 2px dashed var.$Neutral-0;
+    }
 }
 
 @media screen and (min-width: 1024px) {

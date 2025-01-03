@@ -1,13 +1,15 @@
 <form class="form" [formGroup]="ticketForm" (submit)="getUserData()">
     <div class="form__file-input">
         <label for="file">Upload Avatar</label>
-        <div class="form__avatar">
+        <div class="form__avatar" [ngClass]="{ 'focus': isFocused }">
             <input 
                 type="file" 
                 id="file" 
                 #fileInput
-                formControlName="photo" 
+                formControlName="photo"
                 (change)="onFileSelected()"
+                (focus)="onFocus()"
+                (blur)="onBlur()"
             >
             <div class="form__avatar--not-uploaded" *ngIf="!isImageUploaded">
                 <span class="form__avatar-icon-container">
@@ -69,6 +71,10 @@
         <span class="form__error-msg" *ngIf="!githubUsername.hasError('required') && githubUsername.hasError('invalidUsername')">
             <img src="icon-error.svg" alt="">
             This username does not exist.
+        </span>
+        <span class="form__error-msg valid" *ngIf="githubUsername.valid">
+            <img src="icon-error-green.svg" alt="">
+            This username is valid! ✅
         </span>
     </div>
     <button
